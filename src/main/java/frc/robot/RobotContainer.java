@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Robot.RobotRunType;
+import frc.robot.subsystems.cannon.Cannon;
+import frc.robot.subsystems.cannon.CannonIO;
+import frc.robot.subsystems.cannon.CannonReal;
 import frc.robot.subsystems.tank.Tank;
 import frc.robot.subsystems.tank.TankIO;
 import frc.robot.subsystems.tank.TankReal;
@@ -33,6 +36,7 @@ public class RobotContainer {
     /* Subsystems */
     Tank tank;
     Turret turret;
+    Cannon cannon;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,12 +48,14 @@ public class RobotContainer {
             case kReal:
                 tank = new Tank(new TankReal());
                 turret = new Turret(new TurretReal());
+                cannon = new Cannon(new CannonReal());
                 break;
             case kSimulation:
                 break;
             default:
                 tank = new Tank(new TankIO.Empty());
                 turret = new Turret(new TurretIO.Empty());
+                cannon = new Cannon(new CannonIO.Empty());
         }
         // Configure the button bindings
         configureButtonBindings();
@@ -67,6 +73,7 @@ public class RobotContainer {
         driver.povLeft().onTrue(turret.leftCMD());
         driver.povRight().onTrue(turret.rightCMD());
         driver.povDown().onTrue(turret.backCMD());
+        driver.rightTrigger().onTrue(cannon.shootCMD());
     }
 
     /**

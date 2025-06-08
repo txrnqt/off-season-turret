@@ -72,4 +72,8 @@ public final class Constants {
         public static final double GEAR_RATIO = 0.0;
         public static final Angle MAX_ROTATION = Degrees.of(Double.POSITIVE_INFINITY);
     }
+
+    public static final class Cannon {
+        public static final double READY_PRESURE = Double.POSITIVE_INFINITY;
+    }
 }
