@@ -9,9 +9,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Robot.RobotRunType;
-import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.subsystems.drive.DrivetrainIO;
-import frc.robot.subsystems.drive.DrivetrainReal;
+import frc.robot.subsystems.tank.Tank;
+import frc.robot.subsystems.tank.TankIO;
+import frc.robot.subsystems.tank.TankReal;
+import frc.robot.subsystems.turret.Turret;
+import frc.robot.subsystems.turret.TurretIO;
+import frc.robot.subsystems.turret.TurretReal;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,7 +31,8 @@ public class RobotContainer {
     private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
     /* Subsystems */
-    private Drivetrain drivetrain;
+    Tank tank;
+    Turret turret;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -38,13 +42,14 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Wait 1 Second", "wait");
         switch (runtimeType) {
             case kReal:
-                drivetrain = new Drivetrain(new DrivetrainReal());
+                tank = new Tank(new TankReal());
+                turret = new Turret(new TurretReal());
                 break;
             case kSimulation:
-                // drivetrain = new Drivetrain(new DrivetrainSim() {});
                 break;
             default:
-                drivetrain = new Drivetrain(new DrivetrainIO() {});
+                tank = new Tank(new TankIO.Empty());
+                turret = new Turret(new TurretIO.Empty());
         }
         // Configure the button bindings
         configureButtonBindings();
@@ -56,7 +61,13 @@ public class RobotContainer {
      * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {}
+    private void configureButtonBindings() {
+        tank.setDefaultCommand(tank.arcadeDrive(driver));
+        driver.povUp().onTrue(turret.frontCMD());
+        driver.povLeft().onTrue(turret.leftCMD());
+        driver.povRight().onTrue(turret.rightCMD());
+        driver.povDown().onTrue(turret.backCMD());
+    }
 
     /**
      * Gets the user's selected autonomous command.
