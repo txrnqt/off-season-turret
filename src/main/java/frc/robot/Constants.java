@@ -76,4 +76,25 @@ public final class Constants {
     public static final class Cannon {
         public static final double READY_PRESURE = Double.POSITIVE_INFINITY;
     }
+
+    public static final class MaybeWrist {
+        public static final NeutralModeValue BREAK = NeutralModeValue.Brake;
+
+        public static final double CVeleocity = 4.0;
+        public static final double Acceleration = 10.0;
+        public static final double Jerk = 6000000.0;
+
+        public static final double KP = 0.0;
+        public static final double KI = 0.0;
+        public static final double KD = 0.0;
+        public static final double KS = 0.0;
+        public static final double KG = 0.0;
+        public static final double KV = 0.0;
+        public static final double KA = 0.0;
+
+        public static final double GEAR_RATIO = 0.0;
+        public static final Angle MAX_ROTATION = Degrees.of(Double.POSITIVE_INFINITY);
+
+        public static final Angle UP_ANGLE = Degrees.of(Double.NaN);
+    }
 }

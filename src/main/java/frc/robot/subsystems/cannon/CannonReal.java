@@ -19,7 +19,7 @@ public class CannonReal implements CannonIO {
     }
 
     @Override
-    public void updateInputs(cannonInputs inputs) {
+    public void updateInputs(CannonInputs inputs) {
         inputs.presusre = compressor.getPressure();
         inputs.activated = compressor.isEnabled();
     }

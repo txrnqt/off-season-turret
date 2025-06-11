@@ -1,10 +1,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -12,6 +14,9 @@ import frc.robot.Robot.RobotRunType;
 import frc.robot.subsystems.cannon.Cannon;
 import frc.robot.subsystems.cannon.CannonIO;
 import frc.robot.subsystems.cannon.CannonReal;
+import frc.robot.subsystems.maybeWrist.Wrist;
+import frc.robot.subsystems.maybeWrist.WristIO;
+import frc.robot.subsystems.maybeWrist.WristReal;
 import frc.robot.subsystems.tank.Tank;
 import frc.robot.subsystems.tank.TankIO;
 import frc.robot.subsystems.tank.TankReal;
@@ -37,6 +42,7 @@ public class RobotContainer {
     Tank tank;
     Turret turret;
     Cannon cannon;
+    Wrist wrist;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -49,6 +55,7 @@ public class RobotContainer {
                 tank = new Tank(new TankReal());
                 turret = new Turret(new TurretReal());
                 cannon = new Cannon(new CannonReal());
+                wrist = new Wrist(new WristReal());
                 break;
             case kSimulation:
                 break;
@@ -56,6 +63,7 @@ public class RobotContainer {
                 tank = new Tank(new TankIO.Empty());
                 turret = new Turret(new TurretIO.Empty());
                 cannon = new Cannon(new CannonIO.Empty());
+                wrist = new Wrist(new WristIO.Empty());
         }
         // Configure the button bindings
         configureButtonBindings();
@@ -68,12 +76,26 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+
+        /** sticks */
         tank.setDefaultCommand(tank.arcadeDrive(driver));
+        turret.setDefaultCommand(turret.stickCMD(driver));
+        wrist.setDefaultCommand(wrist.stickCMD(driver));
+
+        /** buttons */
         driver.povUp().onTrue(turret.frontCMD());
         driver.povLeft().onTrue(turret.leftCMD());
         driver.povRight().onTrue(turret.rightCMD());
         driver.povDown().onTrue(turret.backCMD());
         driver.rightTrigger().onTrue(cannon.shootCMD());
+        driver.leftTrigger().onTrue(wrist.upCMD());
+
+        /** alerts */
+        cannon.readyPresure
+            .onTrue(Commands.run(() -> driver.setRumble(RumbleType.kBothRumble, 1))
+                .ignoringDisable(true))
+            .onFalse(Commands.run(() -> driver.setRumble(RumbleType.kBothRumble, 0))
+                .ignoringDisable(true));
     }
 
     /**

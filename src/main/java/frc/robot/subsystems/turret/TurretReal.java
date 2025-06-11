@@ -43,7 +43,6 @@ public class TurretReal implements TurretIO {
         turretMotor.getConfigurator().apply(config);
     }
 
-    @Override
     public void setVoltage(double v) {
         turretMotor.set(v);
     }

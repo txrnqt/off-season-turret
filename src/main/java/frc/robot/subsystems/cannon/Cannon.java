@@ -4,11 +4,16 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 
 public class Cannon extends SubsystemBase {
-    CannonIO io;
-    cannonInputsAutoLogged inputs = new cannonInputsAutoLogged();
+    private CannonIO io;
+    private CannonInputsAutoLogged inputs = new CannonInputsAutoLogged();
+
+    /** triggers */
+    public Trigger readyPresure =
+        new Trigger(() -> inputs.presusre >= Constants.Cannon.READY_PRESURE);
 
     public Cannon(CannonIO io) {
         this.io = io;

@@ -1,4 +1,4 @@
-package frc.robot.subsystems.turret;
+package frc.robot.subsystems.maybeWrist;
 
 import static edu.wpi.first.units.Units.Degrees;
 import java.util.function.Supplier;
@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants;
 
-public class Turret extends SubsystemBase {
-    private TurretIO io;
-    private TurertInputsAutoLogged inputs = new TurertInputsAutoLogged();
+public class Wrist extends SubsystemBase {
+    private WristIO io;
+    private WristInputsAutoLogged inputs = new WristInputsAutoLogged();
 
-    public Turret(TurretIO io) {
+    public Wrist(WristIO io) {
         this.io = io;
         io.updateInputs(inputs);
     }
@@ -22,15 +23,15 @@ public class Turret extends SubsystemBase {
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-        Logger.processInputs("Turret", inputs);
-        Logger.recordOutput("Turret/Angle", inputs.position);
+        Logger.processInputs("Wrist", inputs);
+        Logger.recordOutput("Wrist/Angle", inputs.position);
     }
 
     /**
-     * sets angle of turret
+     * sets angle of wrist
      *
-     * @param angle desired angle of turret
-     * @return turret angle change
+     * @param angle desired angle of wrist
+     * @return wrist angle change
      *
      */
     public Command moveTo(Supplier<Angle> angle) {
@@ -42,26 +43,14 @@ public class Turret extends SubsystemBase {
     }
 
     public Command stickCMD(CommandXboxController controller) {
-        double raxis = -controller.getLeftX();
+        double raxis = -controller.getRightX();
         raxis = MathUtil.applyDeadband(raxis, 0.1);
         raxis = (Math.abs(raxis) < 0.1) ? 0 : raxis;
         double rotation = raxis * 0.5;
         return run(() -> io.setAngle(rotation));
     }
 
-    public Command frontCMD() {
-        return moveTo(() -> Degrees.of(10000000));
-    }
-
-    public Command backCMD() {
-        return moveTo(() -> Degrees.of(10000000));
-    }
-
-    public Command rightCMD() {
-        return moveTo(() -> Degrees.of(10000000));
-    }
-
-    public Command leftCMD() {
-        return moveTo(() -> Degrees.of(10000000));
+    public Command upCMD() {
+        return run(() -> moveTo(() -> Constants.MaybeWrist.UP_ANGLE));
     }
 }

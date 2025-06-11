@@ -4,14 +4,14 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface CannonIO {
     @AutoLog
-    public class cannonInputs {
+    public class CannonInputs {
         double presusre = Double.NaN;
         boolean activated = false;
     }
 
     public void openAndClose(boolean is_open);
 
-    public void updateInputs(cannonInputs inputs);
+    public void updateInputs(CannonInputs inputs);
 
     public class Empty implements CannonIO {
 
@@ -19,7 +19,7 @@ public interface CannonIO {
         public void openAndClose(boolean is_open) {}
 
         @Override
-        public void updateInputs(cannonInputs inputs) {}
+        public void updateInputs(CannonInputs inputs) {}
 
     }
 }
