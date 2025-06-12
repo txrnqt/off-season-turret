@@ -31,6 +31,7 @@ import frc.robot.subsystems.turret.TurretReal;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
     /* Controllers */
     private final CommandXboxController driver = new CommandXboxController(Constants.driverID);
     private final CommandXboxController operator = new CommandXboxController(Constants.operatorID);
@@ -66,7 +67,7 @@ public class RobotContainer {
                 wrist = new Wrist(new WristIO.Empty());
         }
         // Configure the button bindings
-        configureButtonBindings();
+        configDriverControls();
     }
 
     /**
@@ -75,8 +76,7 @@ public class RobotContainer {
      * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
-
+    private void configDriverControls() {
         /** sticks */
         tank.setDefaultCommand(tank.arcadeDrive(driver));
         turret.setDefaultCommand(turret.stickCMD(driver));
@@ -88,7 +88,7 @@ public class RobotContainer {
         driver.povRight().onTrue(turret.rightCMD());
         driver.povDown().onTrue(turret.backCMD());
         driver.rightTrigger().onTrue(cannon.shootCMD());
-        driver.leftTrigger().onTrue(wrist.upCMD());
+        driver.leftTrigger().onTrue(frc.robot.commands.CommandFactory.rightAim(turret, wrist));
 
         /** alerts */
         cannon.readyPresure

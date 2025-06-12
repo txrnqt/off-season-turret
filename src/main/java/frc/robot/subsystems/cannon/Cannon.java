@@ -1,19 +1,21 @@
 package frc.robot.subsystems.cannon;
 
-import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import org.littletonrobotics.junction.Logger;
 
 public class Cannon extends SubsystemBase {
+
     private CannonIO io;
     private CannonInputsAutoLogged inputs = new CannonInputsAutoLogged();
 
     /** triggers */
-    public Trigger readyPresure =
-        new Trigger(() -> inputs.presusre >= Constants.Cannon.READY_PRESURE);
+    public Trigger readyPresure = new Trigger(
+        () -> inputs.presusre >= Constants.Cannon.READY_PRESURE
+    );
 
     public Cannon(CannonIO io) {
         this.io = io;
@@ -29,10 +31,13 @@ public class Cannon extends SubsystemBase {
 
     public Command shootCMD() {
         if (inputs.presusre >= Constants.Cannon.READY_PRESURE) {
-            return Commands.runEnd(() -> io.openAndClose(true), () -> io.openAndClose(false), this);
+            return Commands.runEnd(
+                () -> io.openAndClose(true),
+                () -> io.openAndClose(false),
+                this
+            );
         } else {
             return null;
         }
     }
-
 }
