@@ -1,4 +1,4 @@
-package frc.robot.subsystems.maybeWrist;
+package frc.robot.subsystems.wrist;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;

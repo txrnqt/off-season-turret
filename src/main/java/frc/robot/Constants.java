@@ -1,10 +1,18 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Hertz;
+import static edu.wpi.first.units.Units.Seconds;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Frequency;
+import edu.wpi.first.units.measure.Time;
 
 /**
  * Constants file.
@@ -97,4 +105,32 @@ public final class Constants {
 
         public static final Angle UP_ANGLE = Degrees.of(Double.NaN);
     }
+
+    /** Vision Constants */
+    public static class Vision {
+
+        public static AprilTagFieldLayout fieldLayout;
+
+        /** Constants for an individual camera. */
+        public static final record CameraConstants(String name, int height, int width,
+            Rotation2d horizontalFieldOfView, Frequency framesPerSecond, Time latencyAvg,
+            Time latencyStdDev, double calibErrorAvg, double calibErrorStdDev,
+            Transform3d robotToCamera, double offset) {
+            public double centerPixelYawRads() {
+                return robotToCamera.getRotation().getZ();
+            }
+        }
+
+
+        public static final CameraConstants[] cameras =
+            new CameraConstants[] {new CameraConstants("camObj", 800, 1280,
+                Rotation2d.fromDegrees(1000000), Hertz.of(240), Seconds.of(0.3), Seconds.of(0.02),
+                0.0, 0.0, new Transform3d(0.0, 0.0, 0.0, new Rotation3d(Math.PI, 0, 0)),
+                Units.inchesToMeters(1000000))};
+
+
+        public static final double zMargin = 0.75;
+        public static final double fieldBorderMargin = 0.5;
+    }
+
 }

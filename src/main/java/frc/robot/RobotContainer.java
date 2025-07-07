@@ -14,15 +14,15 @@ import frc.robot.Robot.RobotRunType;
 import frc.robot.subsystems.cannon.Cannon;
 import frc.robot.subsystems.cannon.CannonIO;
 import frc.robot.subsystems.cannon.CannonReal;
-import frc.robot.subsystems.maybeWrist.Wrist;
-import frc.robot.subsystems.maybeWrist.WristIO;
-import frc.robot.subsystems.maybeWrist.WristReal;
 import frc.robot.subsystems.tank.Tank;
 import frc.robot.subsystems.tank.TankIO;
 import frc.robot.subsystems.tank.TankReal;
 import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.turret.TurretIO;
 import frc.robot.subsystems.turret.TurretReal;
+import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.subsystems.wrist.WristIO;
+import frc.robot.subsystems.wrist.WristReal;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

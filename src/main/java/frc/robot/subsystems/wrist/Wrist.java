@@ -1,4 +1,4 @@
-package frc.robot.subsystems.maybeWrist;
+package frc.robot.subsystems.wrist;
 
 import static edu.wpi.first.units.Units.Degrees;
 import java.util.function.Supplier;

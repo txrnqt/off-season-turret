@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.maybeWrist.Wrist;
 import frc.robot.subsystems.turret.Turret;
+import frc.robot.subsystems.wrist.Wrist;
 
 public class CommandFactory extends Command {
 
