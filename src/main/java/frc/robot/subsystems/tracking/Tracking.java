@@ -45,6 +45,9 @@ public class Tracking extends SubsystemBase {
         Logger.recordOutput(logIntro + "targetTranslation", targetTransform);
     }
 
+    public Transform2d getTargetTransform() {
+        return targetTransform;
+    }
 
 
     /** just using slang */

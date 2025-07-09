@@ -1,12 +1,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.turret.Turret;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.cannon.Cannon;
+import frc.robot.subsystems.piviot.Piviot;
+import frc.robot.subsystems.tank.Tank;
+import frc.robot.subsystems.tracking.Tracking;
 import frc.robot.subsystems.wrist.Wrist;
 
 public class CommandFactory extends Command {
 
-    public static Command rightAim(Turret turret, Wrist wrist) {
-        return turret.rightCMD().andThen(wrist.upCMD());
+    private Command autoAimCMD(Cannon cannon, Piviot piviot, Tank tank, Wrist wrist, Tracking tracking) {
+        return Commands.run(null, null)
+    }
+
+    private Command getAlinged(Tank tank, Tracking tracking) {
+        val translation = tank.getPose().transformBy(tracking.getTargetTransform());
+        return Commands.run(, null)
     }
 }

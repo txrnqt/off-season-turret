@@ -10,15 +10,10 @@ public interface TankIO {
 
     public void updateInputs(TankInputs inputs);
 
-    public void setVoltage(double lV, double rV);
-
     public void setVelocity(double leftRadPerSec, double rightRadPerSec, double leftFFVolts,
         double rightFFVolts);
 
     public static class Empty implements TankIO {
-
-        @Override
-        public void setVoltage(double lV, double rV) {}
 
         @Override
         public void setVelocity(double leftRadPerSec, double rightRadPerSec, double leftFFVolts,

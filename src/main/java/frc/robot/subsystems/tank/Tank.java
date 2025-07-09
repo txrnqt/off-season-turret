@@ -2,6 +2,7 @@ package frc.robot.subsystems.tank;
 
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -27,7 +28,6 @@ public class Tank extends SubsystemBase {
         io.updateInputs(inputs);
         Logger.processInputs("Tank", inputs);
     }
-
 
     /** Runs the drive at the desired velocity. */
     public void runClosedLoop(ChassisSpeeds speeds) {
@@ -64,5 +64,21 @@ public class Tank extends SubsystemBase {
             runClosedLoop(speeds.left * Constants.Tank.MAX_METERS_PER_SEC,
                 speeds.right * Constants.Tank.MAX_METERS_PER_SEC);
         });
+    }
+
+    public Pose2d getPose() {
+        return new Pose2d();
+    }
+
+    public void moveToPose(Pose2d pose, double maxSpeed, double maxAcceleration) {
+        ChassisSpeeds ctrlEffort = holonomicDriveController.calculate(state.getGlobalPoseEstimate(),
+            pose, 0, pose.getRotation());
+        double speed = Math.hypot(ctrlEffort.vxMetersPerSecond, ctrlEffort.vyMetersPerSecond);
+        if (speed > maxSpeed) {
+            double mul = maxSpeed / speed;
+            ctrlEffort.vxMetersPerSecond *= mul;
+            ctrlEffort.vyMetersPerSecond *= mul;
+        }
+        io.setVelocity(ctrlEffort.);
     }
 }
